@@ -12,5 +12,12 @@ namespace PdfTesting.Controllers
         {
             return View();
         }
+
+        public IActionResult CreatedPdf()
+        {
+            //TODO: Work on it
+
+            return View();
+        }
     }
 }
