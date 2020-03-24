@@ -4,8 +4,35 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to simple ASP.NET Core Web Application.</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>This is simple project as demo for using pdf packages.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome to simple ASP.NET Core Web Application.</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <p>This is simple project as demo for using pdf packages.</p>
+
+    </div>
+
+    <div class="jumbotron alert-info align-items-center">
+        <h4>Examples created for demonstration of usage of PdfSharp.(Press the button for download pdf)</h4>
+        <hr />
+        <div class="align-items-sm-center text-center col-sm-6 bg-primary">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GenerateSimplePdf">Generate Simple Pdf Document</a>
+        </div>
+        <div class="align-items-sm-center text-center col-sm-6 bg-danger">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GeneratePdfA4Page">Generate Pdf with A4 page</a>
+        </div>
+        <div class="align-items-sm-center text-center col-sm-6 bg-primary">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GeneratePdfWithMultiPage">Generate Pdf Document with multiple pages</a>
+        </div>
+        <div class="align-items-sm-center text-center col-sm-6 bg-danger">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GeneratePdfWithWatermark">Generate Pdf with watermark</a>
+        </div>
+        <div class="align-items-sm-center text-center col-sm-6 bg-primary">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GeneretePdfWithGradient">Generate Pdf Document with gradient</a>
+        </div>
+        <div class="align-items-sm-center text-center col-sm-6 bg-danger">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GeneratePdfWithTextAlignment">Generate Pdf with text alignment</a>
+        </div>
+        <div class="align-items-sm-center text-center col-sm-6 bg-primary">
+            <a class="nav-link text-dark" asp-controller="Pdf" asp-action="GeneratePdfWithImage">Generate Pdf Document with image</a>
+        </div>
+    </div>

@@ -26,31 +26,137 @@ namespace PdfTesting.Controllers
         }
 
 
-        public IActionResult GeneratePdf()
+        public IActionResult GenerateSimplePdf()
         {
                 PdfDocument document = new PdfDocument();
                 document.Info.Title = "Created with PDFSharp";
 
-
                 PdfPage page = document.AddPage();
-
                 XGraphics grf = XGraphics.FromPdfPage(page);
-
                 XFont font = new XFont("Arial", 20, XFontStyle.Regular);
-
                 grf.DrawString("Hello World!", font, XBrushes.Black,
                     new XRect(0, 0, page.Width, page.Height), XStringFormat.Center);
 
                 MemoryStream stream = new MemoryStream();
-
                 document.Save(stream, false);
-
                 stream.Position = 0;
 
                 return File(stream, "application/pdf", "HelloPDF.pdf");
         }
 
-        public IActionResult GradientDocs()
+        public IActionResult GeneratePdfA4Page()
+        {
+            PdfDocument document = new PdfDocument();
+
+            XFont font = new XFont("Times", 25, XFontStyle.Bold);
+
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            gfx.DrawString("Page 1", font, XBrushes.Black, 20, 50, XStringFormat.Default);
+
+            page.Size = PdfSharp.PageSize.A4;
+            page.Orientation = PdfSharp.PageOrientation.Landscape;
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+            return File(stream, "application/pdf", "A4.pdf");
+        }
+
+
+        public IActionResult GeneratePdfWithMultiPage()
+        {
+            PdfDocument document = new PdfDocument();
+            XFont font = new XFont("Verdana", 16);
+
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            gfx.DrawString("Page 1", font, XBrushes.Black, 20, 50, XStringFormat.Default);
+
+            PdfOutline outline = document.Outlines.Add("Root", page, true, PdfOutlineStyle.Bold, XColors.Red);
+
+            for (int idx = 2; idx < 5; idx++)
+            {
+                page = document.AddPage();
+
+                gfx = XGraphics.FromPdfPage(page);
+                string text = "Page" + idx;
+                gfx.DrawString(text, font, XBrushes.Black, 20, 50, XStringFormats.Default);
+
+                outline.Outlines.Add(text, page, true);
+            }
+
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+            return File(stream, "application/pdf", "MultiPage.pdf");
+        }
+
+        private XRect GetRect(int idx)
+        {
+            XRect rect = new XRect(0, 0, XUnit.FromCentimeter(21).Point / 3 * 0.9, XUnit.FromCentimeter(29.7).Point / 3 * 0.9);
+            rect.X = (idx % 3) * XUnit.FromCentimeter(21).Point / 3 + XUnit.FromCentimeter(21).Point * 0.05 / 3;
+            rect.Y = (idx / 3) * XUnit.FromCentimeter(29.7).Point / 3 + XUnit.FromCentimeter(29.7).Point * 0.05 / 3;
+            return rect;
+        }
+
+        public IActionResult GeneratePdfWithWatermark()
+        {
+            const string text =
+                             "Facin exeraessisit la consenim iureet dignibh eu facilluptat vercil dunt autpat. " +
+                             "Ecte magna faccum dolor sequisc iliquat, quat, quipiss equipit accummy niate magna " +
+                             "facil iure eraesequis am velit, quat atis dolore dolent luptat nulla adio odipissectet " +
+                             "lan venis do essequatio conulla facillandrem zzriusci bla ad minim inis nim velit eugait " +
+                             "aut aut lor at ilit ut nulla ate te eugait alit augiamet ad magnim iurem il eu feuissi.\n" +
+                             "Guer sequis duis eu feugait luptat lum adiamet, si tate dolore mod eu facidunt adignisl in " +
+                             "henim dolorem nulla faccum vel inis dolutpatum iusto od min ex euis adio exer sed del " +
+                             "dolor ing enit veniamcon vullutat praestrud molenis ciduisim doloborem ipit nulla consequisi.\n" +
+                             "Nos adit pratetu eriurem delestie del ut lumsandreet nis exerilisit wis nos alit venit praestrud " +
+                             "dolor sum volore facidui blaor erillaortis ad ea augue corem dunt nis  iustinciduis euisi.\n" +
+                             "Ut ulputate volore min ut nulpute dolobor sequism olorperilit autatie modit wisl illuptat dolore " +
+                             "min ut in ute doloboreet ip ex et am dunt at.";
+
+            PdfDocument document = new PdfDocument();
+
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page, XGraphicsPdfPageOptions.Prepend);
+            XFont font = new XFont("Times New Roman", 16, XFontStyle.Bold);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+            XRect xRect = new XRect(40, 40, 250, 220);
+            gfx.DrawRectangle(XBrushes.SeaShell, xRect);
+            tf.DrawString("Naslov", font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
+            font = new XFont("Times New Roman", 10, XFontStyle.Bold);
+
+            XRect rect = new XRect(40, 100, 250, 220);
+            gfx.DrawRectangle(XBrushes.SeaShell, rect);
+            //tf.Alignment = ParagraphAlignment.Left;
+            tf.DrawString(text, font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            var size = gfx.MeasureString("PDFSharp", font);
+
+            gfx.TranslateTransform(page.Width / 2, page.Height / 2);
+            gfx.RotateTransform(-Math.Atan(page.Height / page.Width) * 180 / Math.PI);
+            gfx.TranslateTransform(-page.Width / 2, -page.Height / 2);
+
+            var format = new XStringFormat();
+            format.Alignment = XStringAlignment.Near;
+            format.LineAlignment = XLineAlignment.Near;
+
+            XBrush brush = new XSolidBrush(XColor.FromArgb(128, 255, 0, 0));
+
+            gfx.DrawString("Wathermark", font, brush, new XPoint((page.Width - size.Width) / 2, (page.Height - size.Height) / 2), format);
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+        public IActionResult GeneretePdfWithGradient()
         {
             var document = new PdfDocument();
             using (document = new PdfDocument())
@@ -87,10 +193,7 @@ namespace PdfTesting.Controllers
             stream.Position = 0;
             return File(stream, "application/pdf", "test.pdf");
         }
-
-
-
-        public IActionResult TextAlignment()
+        public IActionResult GeneratePdfWithTextAlignment()
         {
             const string text =
                           "Facin exeraessisit la consenim iureet dignibh eu facilluptat vercil dunt autpat. " +
@@ -146,7 +249,7 @@ namespace PdfTesting.Controllers
             return File(stream, "application/pdf", "alignment.pdf");
         }
 
-        public IActionResult GenImg()
+        public IActionResult GeneratePdfWithImage()
         {
             PdfDocument document = new PdfDocument();
 
@@ -169,18 +272,18 @@ namespace PdfTesting.Controllers
         public IActionResult GenTable()
         {
             const string text =
-  "Facin exeraessisit la consenim iureet dignibh eu facilluptat vercil dunt autpat. " +
-  "Ecte magna faccum dolor sequisc iliquat, quat, quipiss equipit accummy niate magna " +
-  "facil iure eraesequis am velit, quat atis dolore dolent luptat nulla adio odipissectet " +
-  "lan venis do essequatio conulla facillandrem zzriusci bla ad minim inis nim velit eugait " +
-  "aut aut lor at ilit ut nulla ate te eugait alit augiamet ad magnim iurem il eu feuissi.\n" +
-  "Guer sequis duis eu feugait luptat lum adiamet, si tate dolore mod eu facidunt adignisl in " +
-  "henim dolorem nulla faccum vel inis dolutpatum iusto od min ex euis adio exer sed del " +
-  "dolor ing enit veniamcon vullutat praestrud molenis ciduisim doloborem ipit nulla consequisi.\n" +
-  "Nos adit pratetu eriurem delestie del ut lumsandreet nis exerilisit wis nos alit venit praestrud " +
-  "dolor sum volore facidui blaor erillaortis ad ea augue corem dunt nis  iustinciduis euisi.\n" +
-  "Ut ulputate volore min ut nulpute dolobor sequism olorperilit autatie modit wisl illuptat dolore " +
-  "min ut in ute doloboreet ip ex et am dunt at.";
+                              "Facin exeraessisit la consenim iureet dignibh eu facilluptat vercil dunt autpat. " +
+                              "Ecte magna faccum dolor sequisc iliquat, quat, quipiss equipit accummy niate magna " +
+                              "facil iure eraesequis am velit, quat atis dolore dolent luptat nulla adio odipissectet " +
+                              "lan venis do essequatio conulla facillandrem zzriusci bla ad minim inis nim velit eugait " +
+                              "aut aut lor at ilit ut nulla ate te eugait alit augiamet ad magnim iurem il eu feuissi.\n" +
+                              "Guer sequis duis eu feugait luptat lum adiamet, si tate dolore mod eu facidunt adignisl in " +
+                              "henim dolorem nulla faccum vel inis dolutpatum iusto od min ex euis adio exer sed del " +
+                              "dolor ing enit veniamcon vullutat praestrud molenis ciduisim doloborem ipit nulla consequisi.\n" +
+                              "Nos adit pratetu eriurem delestie del ut lumsandreet nis exerilisit wis nos alit venit praestrud " +
+                              "dolor sum volore facidui blaor erillaortis ad ea augue corem dunt nis  iustinciduis euisi.\n" +
+                              "Ut ulputate volore min ut nulpute dolobor sequism olorperilit autatie modit wisl illuptat dolore " +
+                              "min ut in ute doloboreet ip ex et am dunt at.";
 
             PdfDocument document = new PdfDocument();
             document.Info.Title = "A simple invoce";
@@ -210,119 +313,5 @@ namespace PdfTesting.Controllers
             stream.Position = 0;
             return File(stream, "application/pdf", "table.pdf");
         }
-
-
-        public IActionResult Watermark()
-        {
-            const string text =
-                             "Facin exeraessisit la consenim iureet dignibh eu facilluptat vercil dunt autpat. " +
-                             "Ecte magna faccum dolor sequisc iliquat, quat, quipiss equipit accummy niate magna " +
-                             "facil iure eraesequis am velit, quat atis dolore dolent luptat nulla adio odipissectet " +
-                             "lan venis do essequatio conulla facillandrem zzriusci bla ad minim inis nim velit eugait " +
-                             "aut aut lor at ilit ut nulla ate te eugait alit augiamet ad magnim iurem il eu feuissi.\n" +
-                             "Guer sequis duis eu feugait luptat lum adiamet, si tate dolore mod eu facidunt adignisl in " +
-                             "henim dolorem nulla faccum vel inis dolutpatum iusto od min ex euis adio exer sed del " +
-                             "dolor ing enit veniamcon vullutat praestrud molenis ciduisim doloborem ipit nulla consequisi.\n" +
-                             "Nos adit pratetu eriurem delestie del ut lumsandreet nis exerilisit wis nos alit venit praestrud " +
-                             "dolor sum volore facidui blaor erillaortis ad ea augue corem dunt nis  iustinciduis euisi.\n" +
-                             "Ut ulputate volore min ut nulpute dolobor sequism olorperilit autatie modit wisl illuptat dolore " +
-                             "min ut in ute doloboreet ip ex et am dunt at.";
-
-            PdfDocument document = new PdfDocument();
-
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page, XGraphicsPdfPageOptions.Prepend);
-            XFont font = new XFont("Times New Roman", 16, XFontStyle.Bold);
-            XTextFormatter tf = new XTextFormatter(gfx);
-
-            XRect xRect = new XRect(40, 40, 250, 220);
-            gfx.DrawRectangle(XBrushes.SeaShell, xRect);
-            tf.DrawString("Naslov", font, XBrushes.Black, xRect, XStringFormats.TopLeft);
-
-            font = new XFont("Times New Roman", 10, XFontStyle.Bold);
-
-            XRect rect = new XRect(40, 100, 250, 220);
-            gfx.DrawRectangle(XBrushes.SeaShell, rect);
-            //tf.Alignment = ParagraphAlignment.Left;
-            tf.DrawString(text, font, XBrushes.Black, rect, XStringFormats.TopLeft);
-
-            var size = gfx.MeasureString("PDFSharp", font);
-
-            gfx.TranslateTransform(page.Width / 2, page.Height / 2);
-            gfx.RotateTransform(-Math.Atan(page.Height / page.Width) * 180 / Math.PI);
-            gfx.TranslateTransform(-page.Width / 2, -page.Height / 2);
-
-            var format = new XStringFormat();
-            format.Alignment = XStringAlignment.Near;
-            format.LineAlignment = XLineAlignment.Near;
-
-            XBrush brush = new XSolidBrush(XColor.FromArgb(128, 255, 0, 0));
-
-            gfx.DrawString("Wathermark", font, brush, new XPoint((page.Width - size.Width) / 2, (page.Height - size.Height) / 2), format);
-            MemoryStream stream = new MemoryStream();
-
-            document.Save(stream, false);
-            stream.Position = 0;
-            return File(stream, "application/pdf", "watermark.pdf");
-        }
-
-        public IActionResult A4Page()
-        {
-            PdfDocument document = new PdfDocument();
-
-            XFont font = new XFont("Times", 25, XFontStyle.Bold);
-
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            gfx.DrawString("Page 1", font, XBrushes.Black, 20, 50, XStringFormat.Default);
-
-            page.Size = PdfSharp.PageSize.A4;
-            page.Orientation = PdfSharp.PageOrientation.Landscape;
-
-            MemoryStream stream = new MemoryStream();
-
-            document.Save(stream, false);
-            stream.Position = 0;
-            return File(stream, "application/pdf", "A4.pdf");
-        }
-
-        public IActionResult MultiPage()
-        {
-            PdfDocument document = new PdfDocument();
-            XFont font = new XFont("Verdana", 16);
-
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            gfx.DrawString("Page 1", font, XBrushes.Black, 20, 50, XStringFormat.Default);
-
-            PdfOutline outline = document.Outlines.Add("Root", page, true, PdfOutlineStyle.Bold, XColors.Red);
-
-            for (int idx = 2; idx < 5; idx++)
-            {
-                page = document.AddPage();
-
-                gfx = XGraphics.FromPdfPage(page);
-                string text = "Page" + idx;
-                gfx.DrawString(text, font, XBrushes.Black, 20, 50, XStringFormats.Default);
-
-                outline.Outlines.Add(text, page, true);
-            }
-
-
-            MemoryStream stream = new MemoryStream();
-
-            document.Save(stream, false);
-            stream.Position = 0;
-            return File(stream, "application/pdf", "MultiPage.pdf");
-        }
-
-        private XRect GetRect(int idx)
-        {
-            XRect rect = new XRect(0, 0, XUnit.FromCentimeter(21).Point / 3 * 0.9, XUnit.FromCentimeter(29.7).Point / 3 * 0.9);
-            rect.X = (idx % 3) * XUnit.FromCentimeter(21).Point / 3 + XUnit.FromCentimeter(21).Point * 0.05 / 3;
-            rect.Y = (idx / 3) * XUnit.FromCentimeter(29.7).Point / 3 + XUnit.FromCentimeter(29.7).Point * 0.05 / 3;
-            return rect;
-        }
-
     }
 }
