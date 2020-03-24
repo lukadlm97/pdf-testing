@@ -41,7 +41,7 @@ namespace PdfTesting.Controllers
                 document.Save(stream, false);
                 stream.Position = 0;
 
-                return File(stream, "application/pdf", "HelloPDF.pdf");
+                return File(stream, "application/pdf", "SimplePdfDocument.pdf");
         }
 
         public IActionResult GeneratePdfA4Page()
@@ -61,7 +61,7 @@ namespace PdfTesting.Controllers
 
             document.Save(stream, false);
             stream.Position = 0;
-            return File(stream, "application/pdf", "A4.pdf");
+            return File(stream, "application/pdf", "PdfA4Document.pdf");
         }
 
 
@@ -92,7 +92,7 @@ namespace PdfTesting.Controllers
 
             document.Save(stream, false);
             stream.Position = 0;
-            return File(stream, "application/pdf", "MultiPage.pdf");
+            return File(stream, "application/pdf", "MultiPagePdfDocument.pdf");
         }
 
         private XRect GetRect(int idx)
@@ -154,7 +154,7 @@ namespace PdfTesting.Controllers
 
             document.Save(stream, false);
             stream.Position = 0;
-            return File(stream, "application/pdf", "watermark.pdf");
+            return File(stream, "application/pdf", "WatermarkInPdfDocument.pdf");
         }
         public IActionResult GeneretePdfWithGradient()
         {
@@ -191,7 +191,7 @@ namespace PdfTesting.Controllers
 
             document.Save(stream, false);
             stream.Position = 0;
-            return File(stream, "application/pdf", "test.pdf");
+            return File(stream, "application/pdf", "GradientInPdfDocument.pdf");
         }
         public IActionResult GeneratePdfWithTextAlignment()
         {
@@ -246,7 +246,7 @@ namespace PdfTesting.Controllers
 
             document.Save(stream, false);
             stream.Position = 0;
-            return File(stream, "application/pdf", "alignment.pdf");
+            return File(stream, "application/pdf", "TextAlignmentPdfDocument.pdf");
         }
 
         public IActionResult GeneratePdfWithImage()
@@ -261,7 +261,7 @@ namespace PdfTesting.Controllers
 
             document.Save(stream, false);
             stream.Position = 0;
-            return File(stream, "application/pdf", "image.pdf");
+            return File(stream, "application/pdf", "ImageInPdfDocument.pdf");
         }
 
         private void DrawImage(XGraphics gfx, string img, int v2, int v3, int v4, int v5)
