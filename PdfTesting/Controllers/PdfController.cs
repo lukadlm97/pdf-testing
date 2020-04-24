@@ -65,6 +65,8 @@ namespace PdfTesting.Controllers
             document.Info.Author = "Stefan Lange";
             document.Info.Subject = "Created with code snippets that show the use of graphical functions";
             document.Info.Keywords = "PDFsharp, XGraphics";
+          
+            
 
             SamplePage1(document);
             SamplePage2(document);
@@ -79,6 +81,9 @@ namespace PdfTesting.Controllers
         static void SamplePage2(PdfDocument document)
         {
             PdfPage page = document.AddPage();
+        
+            
+
             XGraphics gfx = XGraphics.FromPdfPage(page);
             // HACK²
             gfx.MUH = PdfFontEncoding.Unicode;
@@ -122,9 +127,11 @@ namespace PdfTesting.Controllers
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
             // HACK²
+            XGraphicsContainer
+            
             gfx.MUH = PdfFontEncoding.Unicode;
            // gfx.MFEH = PdfFontEmbedding.Default;
-
+           
             XFont font = new XFont("Verdana", 13, XFontStyle.Bold);
 
             gfx.DrawString("The following paragraph was rendered using MigraDoc:", font, XBrushes.Black,
@@ -162,7 +169,7 @@ namespace PdfTesting.Controllers
         public IActionResult GeneratePdfA4Page()
         {
             PdfDocument document = new PdfDocument();
-
+            
             XFont font = new XFont("Times", 25, XFontStyle.Bold);
 
             PdfPage page = document.AddPage();
@@ -189,6 +196,7 @@ namespace PdfTesting.Controllers
             XGraphics gfx = XGraphics.FromPdfPage(page);
             gfx.DrawString("Page 1", font, XBrushes.Black, 20, 50, XStringFormat.Default);
 
+            
             PdfOutline outline = document.Outlines.Add("Root", page, true, PdfOutlineStyle.Bold, XColors.Red);
 
             for (int idx = 2; idx < 5; idx++)
