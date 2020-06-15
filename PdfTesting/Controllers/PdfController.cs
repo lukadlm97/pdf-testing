@@ -15,6 +15,7 @@ using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
+using PdfTestingDemo.PredlogZaSaradnjuLibrary;
 
 namespace PdfTesting.Controllers
 {
@@ -121,13 +122,30 @@ namespace PdfTesting.Controllers
             }
         }
 
+        public IActionResult WathermarkWithComponents()
+        {
+            PdfDocument document = new PdfDocument();
+
+            PdfPage strana = document.AddPage();
+
+            Wathermark wathermark = new Wathermark();
+
+            wathermark.PostaviWathermark("neki tekst", strana);
+
+            MemoryStream  stream= new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+
 
         static void SamplePage1(PdfDocument document)
         {
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
-            // HACK²
-            XGraphicsContainer
+        
             
             gfx.MUH = PdfFontEncoding.Unicode;
            // gfx.MFEH = PdfFontEmbedding.Default;
