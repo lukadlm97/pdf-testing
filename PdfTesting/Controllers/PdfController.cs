@@ -125,7 +125,6 @@ namespace PdfTesting.Controllers
         public IActionResult WathermarkWithComponents()
         {
             PdfDocument document = new PdfDocument();
-
             PdfPage strana = document.AddPage();
 
             Wathermark wathermark = new Wathermark();
@@ -140,6 +139,26 @@ namespace PdfTesting.Controllers
             return File(stream, "application/pdf", "watermark.pdf");
         }
 
+        public IActionResult Layout()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+            Zaglavlje zaglavlje = new Zaglavlje();
+            Kompanija k = new Kompanija()
+            {
+                Naziv = "naziv kompanije"
+            };
+
+            zaglavlje.DodajZaglavljeLevo(k, strana);
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
 
         static void SamplePage1(PdfDocument document)
         {
