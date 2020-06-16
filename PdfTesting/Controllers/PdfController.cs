@@ -147,7 +147,41 @@ namespace PdfTesting.Controllers
             Zaglavlje zaglavlje = new Zaglavlje();
             Kompanija k = new Kompanija()
             {
-                Naziv = "naziv kompanije"
+                Naziv = "naziv kompanije",
+                Kontakti = new List<Kontakt>
+                {
+                    new Kontakt
+                    {
+                        Sadrzaj="014821931",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="fiksni"
+                        }
+                    },
+                    new Kontakt
+                    {
+                        Sadrzaj="mail@kompani",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="email"
+                        }
+                    },
+                },
+                Lokacije = new List<Lokacija>
+                {
+                    new Lokacija
+                    {
+                        NazivUlice="kralja Petra I",
+                        Broj=17,
+                        Sprat=1,
+                        Vrata=4,
+                        Grad = new Grad
+                        {
+                            Naziv="Lajkovac",
+                            PostanskiBroj="14224"
+                        }
+                    }
+                }
             };
 
             zaglavlje.DodajZaglavljeLevo(k, strana);
