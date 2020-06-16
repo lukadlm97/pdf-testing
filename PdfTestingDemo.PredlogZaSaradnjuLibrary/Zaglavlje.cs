@@ -12,7 +12,23 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
     {
         public void DodajZaglavlje(Kompanija kompanija,PdfPage stranica)
         {
-            //TODO: create logic
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            XFont font = new XFont("Times New Roman", 12, XFontStyle.Regular);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+
+            XRect xRect = new XRect(130, 20, 350, 220);
+            tf.Alignment = XParagraphAlignment.Center;
+            tf.DrawString("Naziv kompanije:" + kompanija.Naziv, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
+            xRect = new XRect(130, 35, 350, 220);
+            tf.Alignment = XParagraphAlignment.Center;
+            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
+            xRect = new XRect(130, 50, 350, 220);
+            tf.Alignment = XParagraphAlignment.Center;
+            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
         }
         public void DodajZaglavljeLevo(Kompanija kompanija, PdfPage stranica)
         {
@@ -64,7 +80,7 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             {
                 return "Email: " +email.Sadrzaj;
             }
-            return " Fiksni telefon: " + fiksniTel.Sadrzaj+ "  Email:" + email.Sadrzaj;
+            return " Fiksni telefon: " + fiksniTel.Sadrzaj+ "  Email: " + email.Sadrzaj;
         }
 
         public void DodajZaglavljeDesno(Kompanija kompanija, PdfPage stranica)
@@ -75,7 +91,7 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
 
             XRect xRect = new XRect(230, 20, 350, 220);
             tf.Alignment = XParagraphAlignment.Right;
-            tf.DrawString("Naziv kompanije:" + kompanija.Naziv, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Naziv kompanije: " + kompanija.Naziv, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(230, 35, 350, 220);
             tf.Alignment = XParagraphAlignment.Right;
