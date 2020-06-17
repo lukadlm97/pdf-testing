@@ -29,6 +29,7 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             tf.Alignment = XParagraphAlignment.Center;
             tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
 
+            gfx.Dispose();
         }
         public void DodajZaglavljeLevo(Kompanija kompanija, PdfPage stranica)
         {
@@ -48,6 +49,8 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             xRect = new XRect(30, 50, 350, 220);
             tf.Alignment = XParagraphAlignment.Left;
             tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            
+            gfx.Dispose();
         }
 
         private string LokacijaHelper(IEnumerable<Lokacija> lokacije)
@@ -101,11 +104,18 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             tf.Alignment = XParagraphAlignment.Right;
             tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
 
-
+            gfx.Dispose();
         }
         public void DodajSlikuUZaglavlje(Kompanija kompanija, PdfPage stranica)
         {
-            //TODO: create logic
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            DrawImage(gfx, "wwwroot/images/photo.jpg", 450, 20, 150, 50);
+            
+            gfx.Dispose();
+        }
+        private void DrawImage(XGraphics gfx, string img, int v2, int v3, int v4, int v5)
+        {
+            gfx.DrawImage(XImage.FromFile(img), v2, v3, v4, v5);
         }
     }
 }

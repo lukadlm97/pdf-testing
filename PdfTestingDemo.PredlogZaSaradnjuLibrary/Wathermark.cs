@@ -32,8 +32,8 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
                 font,
                 brush,
                 new XPoint((strana.Width - size.Width) / 2, (strana.Height - size.Height) / 2), format);
-                                                                         
 
+            gfx.Dispose();
         }
     }
 }
