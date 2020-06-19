@@ -21,6 +21,67 @@ namespace PdfTesting.Controllers
 {
     public class PdfController : Controller
     {
+        Kompanija komp = new Kompanija()
+        {
+            Naziv = "naziv kompanije",
+            Kontakti = new List<Kontakt>
+                {
+                    new Kontakt
+                    {
+                        Sadrzaj="014821931",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="fiksni"
+                        }
+                    },
+                    new Kontakt
+                    {
+                        Sadrzaj="mail@kompani",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="email"
+                        }
+                    },
+                },
+            Lokacije = new List<Lokacija>
+                {
+                    new Lokacija
+                    {
+                        NazivUlice="kralja Petra I",
+                        Broj=17,
+                        Sprat=1,
+                        Vrata=4,
+                        Grad = new Grad
+                        {
+                            Naziv="Lajkovac",
+                            PostanskiBroj="14224"
+                        }
+                    }
+                }
+        };
+
+        PredlogZaSaradnju predlogZaSaradnju = new PredlogZaSaradnju()
+        {
+           
+            datumPredlaganja = DateTime.Now.AddDays(10),
+           
+            naslov = "Naslov predloga",
+            opisPredloga = "Facin exeraessisit la consenim iureet dignibh eu facilluptat vercil dunt autpat. " +
+                             "Ecte magna faccum dolor sequisc iliquat, quat, quipiss equipit accummy niate magna " +
+                             "facil iure eraesequis am velit, quat atis dolore dolent luptat nulla adio odipissectet " +
+                             "lan venis do essequatio conulla facillandrem zzriusci bla ad minim inis nim velit eugait " +
+                             "aut aut lor at ilit ut nulla ate te eugait alit augiamet ad magnim iurem il eu feuissi.\n" +
+                             "Guer sequis duis eu feugait luptat lum adiamet, si tate dolore mod eu facidunt adignisl in " +
+                             "henim dolorem nulla faccum vel inis dolutpatum iusto od min ex euis adio exer sed del " +
+                             "dolor ing enit veniamcon vullutat praestrud molenis ciduisim doloborem ipit nulla consequisi.\n" +
+                             "Nos adit pratetu eriurem delestie del ut lumsandreet nis exerilisit wis nos alit venit praestrud " +
+                             "dolor sum volore facidui blaor erillaortis ad ea augue corem dunt nis  iustinciduis euisi.\n" +
+                             "Ut ulputate volore min ut nulpute dolobor sequism olorperilit autatie modit wisl illuptat dolore " +
+                             "min ut in ute doloboreet ip ex et am dunt at.",
+            sifraPredloga = 1
+        };
+
+
         public IActionResult Index()
         {
             return View();
@@ -468,6 +529,94 @@ namespace PdfTesting.Controllers
             Naslov naslov = new Naslov();
             naslov.PostaviBoldiranNaslov("Naslov predloga", strana);
 
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+
+        public IActionResult SimpleDescription()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+            predlogZaSaradnju.dokument = document;
+            predlogZaSaradnju.Kompanija = komp;
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviBoldiranNaslov(predlogZaSaradnju.naslov, strana);
+
+            Opis opis = new Opis();
+            opis.PostaviOpisNewRoman(predlogZaSaradnju.opisPredloga,strana);
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+
+        public IActionResult JustifyDescription()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+            predlogZaSaradnju.dokument = document;
+            predlogZaSaradnju.Kompanija = komp;
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviBoldiranNaslov(predlogZaSaradnju.naslov, strana);
+
+            Opis opis = new Opis();
+            opis.PostaviOpisJustify(predlogZaSaradnju.opisPredloga, strana);
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+
+        public IActionResult ItalicDescription()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+            predlogZaSaradnju.dokument = document;
+            predlogZaSaradnju.Kompanija = komp;
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviBoldiranNaslov(predlogZaSaradnju.naslov, strana);
+
+            Opis opis = new Opis();
+            opis.PostaviOpisItalic(predlogZaSaradnju.opisPredloga, strana);
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+
+        public IActionResult LeftDescription()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+            predlogZaSaradnju.dokument = document;
+            predlogZaSaradnju.Kompanija = komp;
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviBoldiranNaslov(predlogZaSaradnju.naslov, strana);
+
+            Opis opis = new Opis();
+            opis.PostaviOpisLevoPoravnanje(predlogZaSaradnju.opisPredloga, strana);
 
             MemoryStream stream = new MemoryStream();
 

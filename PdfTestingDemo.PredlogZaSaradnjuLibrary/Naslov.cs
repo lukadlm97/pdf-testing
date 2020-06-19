@@ -45,5 +45,17 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
 
             gfx.Dispose();
         }
+        public void PostaviManjiNaslov(string naslov, PdfPage stranica)
+        {
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            XFont font = new XFont("Times New Roman", 14, XFontStyle.Italic);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+            XRect xRect = new XRect(40, 120, 350, 220);
+            tf.Alignment = XParagraphAlignment.Center;
+            tf.DrawString(naslov, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
+            gfx.Dispose();
+        }
     }
 }
