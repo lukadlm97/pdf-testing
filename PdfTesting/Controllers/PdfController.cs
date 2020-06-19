@@ -420,6 +420,119 @@ namespace PdfTesting.Controllers
             return File(stream, "application/pdf", "watermark.pdf");
         }
 
+        public IActionResult SimpleBold()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+
+            Kompanija k = new Kompanija()
+            {
+                Naziv = "naziv kompanije",
+                Kontakti = new List<Kontakt>
+                {
+                    new Kontakt
+                    {
+                        Sadrzaj="014821931",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="fiksni"
+                        }
+                    },
+                    new Kontakt
+                    {
+                        Sadrzaj="mail@kompani",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="email"
+                        }
+                    },
+                },
+                Lokacije = new List<Lokacija>
+                {
+                    new Lokacija
+                    {
+                        NazivUlice="kralja Petra I",
+                        Broj=17,
+                        Sprat=1,
+                        Vrata=4,
+                        Grad = new Grad
+                        {
+                            Naziv="Lajkovac",
+                            PostanskiBroj="14224"
+                        }
+                    }
+                }
+            };
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviBoldiranNaslov("Naslov predloga", strana);
+
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
+
+        public IActionResult SimpleItalic()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+
+            Kompanija k = new Kompanija()
+            {
+                Naziv = "naziv kompanije",
+                Kontakti = new List<Kontakt>
+                {
+                    new Kontakt
+                    {
+                        Sadrzaj="014821931",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="fiksni"
+                        }
+                    },
+                    new Kontakt
+                    {
+                        Sadrzaj="mail@kompani",
+                        VrstaKontakta = new VrstaKontakta
+                        {
+                            NazivVrsteKontakta="email"
+                        }
+                    },
+                },
+                Lokacije = new List<Lokacija>
+                {
+                    new Lokacija
+                    {
+                        NazivUlice="kralja Petra I",
+                        Broj=17,
+                        Sprat=1,
+                        Vrata=4,
+                        Grad = new Grad
+                        {
+                            Naziv="Lajkovac",
+                            PostanskiBroj="14224"
+                        }
+                    }
+                }
+            };
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviItalicNaslov("Naslov predloga", strana);
+
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
 
         public IActionResult LayoutWithImg()
         {

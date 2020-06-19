@@ -15,7 +15,7 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             XFont font = new XFont("Times New Roman", 18, XFontStyle.Regular);
             XTextFormatter tf = new XTextFormatter(gfx);
 
-            XRect xRect = new XRect(170, 100, 350, 220);
+            XRect xRect = new XRect(40, 120, 350, 220);
             tf.Alignment = XParagraphAlignment.Center;
             tf.DrawString(naslov, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
 
@@ -23,11 +23,27 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
         }
         public void PostaviBoldiranNaslov(string naslov, PdfPage stranica)
         {
-            //TODO: create logic
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            XFont font = new XFont("Times New Roman", 16, XFontStyle.Bold);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+            XRect xRect = new XRect(40, 120, 350, 220);
+            tf.Alignment = XParagraphAlignment.Center;
+            tf.DrawString(naslov, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
+            gfx.Dispose();
         }
         public void PostaviItalicNaslov(string naslov, PdfPage stranica)
         {
-            //TODO: create logic
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            XFont font = new XFont("Times New Roman", 18, XFontStyle.Italic);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+            XRect xRect = new XRect(40, 120, 350, 220);
+            tf.Alignment = XParagraphAlignment.Center;
+            tf.DrawString(naslov, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
+            gfx.Dispose();
         }
     }
 }
