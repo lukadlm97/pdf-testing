@@ -18,17 +18,32 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
 
             XRect xRect = new XRect(60, 690, 350, 220);
             tf.Alignment = XParagraphAlignment.Left;
-            tf.DrawString("U Beogradu, " +datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)+". godine", 
+            tf.DrawString("U Beogradu, " +datum.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)+" godine", 
                 font, XBrushes.Black, xRect, XStringFormats.TopLeft);
 
         }
         public void PostaviUSADatum(DateTime datum, PdfPage stranica)
         {
-            //TODO: create logic
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            XFont font = new XFont("Times New Roman", 12, XFontStyle.Regular);
+            XTextFormatter tf = new XTextFormatter(gfx);
+            
+            XRect xRect = new XRect(60, 690, 350, 220);
+            tf.Alignment = XParagraphAlignment.Left;
+            tf.DrawString("U Beogradu, " + datum.ToString("d") + " godine",
+                font, XBrushes.Black, xRect, XStringFormats.TopLeft);
         }
         public void PostaviSaTackomDatum(DateTime datum, PdfPage stranica)
         {
-            //TODO: create logic
+            XGraphics gfx = XGraphics.FromPdfPage(stranica);
+            XFont font = new XFont("Times New Roman", 12, XFontStyle.Regular);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+            XRect xRect = new XRect(60, 690, 350, 220);
+            tf.Alignment = XParagraphAlignment.Left;
+            tf.DrawString("U Beogradu, " + datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ". godine",
+                font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+
         }
     }
 }
