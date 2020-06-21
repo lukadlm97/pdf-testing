@@ -968,6 +968,49 @@ namespace PdfTesting.Controllers
 
             return File(stream, "application/pdf", "watermark.pdf");
         }
+
+        public IActionResult DocsWithSignature()
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage strana = document.AddPage();
+
+            Zaglavlje zaglavlje = new Zaglavlje();
+            zaglavlje.DodajZaglavljeLevo(komp, strana);
+            zaglavlje.DodajSlikuUZaglavlje(komp, strana);
+
+            Wathermark wathermark = new Wathermark();
+            wathermark.PostaviWathermark(komp.Naziv, strana);
+
+            predlogZaSaradnju.Kompanija = komp;
+            predlogZaSaradnju.dokument = document;
+
+            Naslov naslov = new Naslov();
+            naslov.PostaviVelikNaslov(predlogZaSaradnju.naslov, strana);
+
+            Opis opis = new Opis();
+            opis.PostaviOpisJustify(predlogZaSaradnju.opisPredloga, strana);
+
+            InformacijeOKompaniji informacijeOKompaniji = new InformacijeOKompaniji();
+            informacijeOKompaniji.PostaviInformacijeItalic(komp, strana);
+
+            PostavljacDatuma postavljacDatuma = new PostavljacDatuma();
+            postavljacDatuma.PostaviSaTackomDatum(predlogZaSaradnju.datumPredlaganja, strana);
+
+            KomponentaPredlagaca komponentaPredlagaca = new KomponentaPredlagaca();
+            komponentaPredlagaca.DodajPredlagaca(new Predlagac()
+            {
+                Ime = "Luka",
+                Prezime = "Radovanovic",
+                Titula = "student"
+            },strana);
+
+            MemoryStream stream = new MemoryStream();
+
+            document.Save(stream, false);
+            stream.Position = 0;
+
+            return File(stream, "application/pdf", "watermark.pdf");
+        }
         static void SamplePage1(PdfDocument document)
         {
             PdfPage page = document.AddPage();

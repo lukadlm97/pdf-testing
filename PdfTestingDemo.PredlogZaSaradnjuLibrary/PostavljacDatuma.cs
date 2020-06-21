@@ -32,6 +32,7 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             tf.Alignment = XParagraphAlignment.Left;
             tf.DrawString("U Beogradu, " + datum.ToString("d") + " godine",
                 font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            gfx.Dispose();
         }
         public void PostaviSaTackomDatum(DateTime datum, PdfPage stranica)
         {
@@ -39,11 +40,11 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             XFont font = new XFont("Times New Roman", 12, XFontStyle.Regular);
             XTextFormatter tf = new XTextFormatter(gfx);
 
-            XRect xRect = new XRect(60, 690, 350, 220);
+            XRect xRect = new XRect(60, 660, 350, 220);
             tf.Alignment = XParagraphAlignment.Left;
             tf.DrawString("U Beogradu, " + datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ". godine",
                 font, XBrushes.Black, xRect, XStringFormats.TopLeft);
-
+            gfx.Dispose();
         }
     }
 }
