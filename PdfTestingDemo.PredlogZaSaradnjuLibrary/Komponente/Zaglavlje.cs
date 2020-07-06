@@ -19,15 +19,18 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
 
             XRect xRect = new XRect(130, 20, 350, 220);
             tf.Alignment = XParagraphAlignment.Center;
-            tf.DrawString("Naziv kompanije:" + kompanija.Naziv, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Naziv kompanije:" + kompanija.Naziv, font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(130, 35, 350, 220);
             tf.Alignment = XParagraphAlignment.Center;
-            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(130, 50, 350, 220);
             tf.Alignment = XParagraphAlignment.Center;
-            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             gfx.Dispose();
         }
@@ -40,15 +43,18 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
 
             XRect xRect = new XRect(30, 20, 350, 220);
             tf.Alignment = XParagraphAlignment.Left;
-            tf.DrawString("Naziv kompanije:"+kompanija.Naziv, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Naziv kompanije:"+kompanija.Naziv, font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(30, 35, 350, 220);
             tf.Alignment = XParagraphAlignment.Left;
-            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(30, 50, 350, 220);
             tf.Alignment = XParagraphAlignment.Left;
-            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
             
             gfx.Dispose();
         }
@@ -94,26 +100,30 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
 
             XRect xRect = new XRect(230, 20, 350, 220);
             tf.Alignment = XParagraphAlignment.Right;
-            tf.DrawString("Naziv kompanije: " + kompanija.Naziv, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Naziv kompanije: " + kompanija.Naziv, font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(230, 35, 350, 220);
             tf.Alignment = XParagraphAlignment.Right;
-            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Lokacija kompanije:" + LokacijaHelper(kompanija.Lokacije), font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             xRect = new XRect(230, 50, 350, 220);
             tf.Alignment = XParagraphAlignment.Right;
-            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, XBrushes.Black, xRect, XStringFormats.TopLeft);
+            tf.DrawString("Kontakti kompanije:" + KontakHelper(kompanija.Kontakti), font, 
+                XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             gfx.Dispose();
         }
+
         public void DodajSlikuUZaglavlje(Kompanija kompanija, PdfPage stranica)
         {
             XGraphics gfx = XGraphics.FromPdfPage(stranica);
-            DrawImage(gfx, "wwwroot/images/photo.jpg", 450, 20, 150, 50);
+            IscrtajSliku(gfx, "wwwroot/images/photo.jpg", 450, 20, 150, 50);
             
             gfx.Dispose();
         }
-        private void DrawImage(XGraphics gfx, string img, int v2, int v3, int v4, int v5)
+        private void IscrtajSliku(XGraphics gfx, string img, int v2, int v3, int v4, int v5)
         {
             gfx.DrawImage(XImage.FromFile(img), v2, v3, v4, v5);
         }
