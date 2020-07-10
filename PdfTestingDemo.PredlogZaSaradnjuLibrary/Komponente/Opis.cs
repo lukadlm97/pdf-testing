@@ -16,7 +16,7 @@ namespace PdfTestingDemo.PredlogZaSaradnjuLibrary
             XTextFormatter tf = new XTextFormatter(gfx);
 
             XRect xRect = new XRect(60, 160, 490, 220);
-            tf.Alignment = XParagraphAlignment.Left;
+            tf.Alignment = XParagraphAlignment.Justify;
             tf.DrawString(opis, font, XBrushes.Black, xRect, XStringFormats.TopLeft);
 
             gfx.Dispose();
