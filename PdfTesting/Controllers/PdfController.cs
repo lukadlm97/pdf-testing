@@ -866,7 +866,7 @@ namespace PdfTesting.Controllers
             return File(stream, "application/pdf", "watermark.pdf");
         }
 
-        public IActionResult DocsWithPlaceAndDate()
+        public IActionResult GeneratePdfDocs()
         {
             PdfDocument document = new PdfDocument();
             PdfPage strana = document.AddPage();
@@ -898,7 +898,7 @@ namespace PdfTesting.Controllers
             document.Save(stream, false);
             stream.Position = 0;
 
-            return File(stream, "application/pdf", "watermark.pdf");
+            return File(stream, "application/pdf", "document.pdf");
         }
         public IActionResult DocsWithPlaceAndDateUSA()
         {
@@ -966,7 +966,7 @@ namespace PdfTesting.Controllers
             document.Save(stream, false);
             stream.Position = 0;
 
-            return File(stream, "application/pdf", "watermark.pdf");
+            return File(stream, "application/pdf", "dokument.pdf");
         }
 
         public IActionResult DocsWithSignatureTitle()
